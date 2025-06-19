@@ -47,37 +47,134 @@ const CarbonEmissionsChart = () => {
             theme === "light" ? "bg-white/80 backdrop-blur-sm" : "bg-stone-700/80 backdrop-blur-sm"
           }`}
         >
-          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8">
-            {/* Heading Section */}
-            <div className="mb-6 lg:mb-0 text-center lg:text-left">
-              <h2
-                className={`text-4xl font-light mb-4 ${
-                  theme === "light" ? "text-stone-800" : "text-stone-200"
-                }`}
-              >
+          <div className="flex flex-col lg:flex-row justify-between items-start mb-8">
+            {/* Filters and Key Section */}
+            <div className="flex flex-col gap-6">
+              <div>
                 <span
-                  className={`text-6xl font-light block lg:inline ${
-                    theme === "light" ? "text-stone-800" : "text-stone-200"
-                  }`}
-                >
-                  EMBODIED
-                </span>
-                <br />
-                <span
-                  className={`block lg:inline ${
-                    theme === "light" ? "text-rose-600" : "text-rose-400"
-                  }`}
-                >
-                  CARBON
-                </span>
-                <br />
-                <span
-                  className={`block lg:inline ${
+                  className={`text-sm mb-3 block ${
                     theme === "light" ? "text-stone-600" : "text-stone-400"
                   }`}
                 >
-                  EMISSIONS
+                  Filter by Type
                 </span>
+                <div className="flex gap-3">
+                  {['Refurbishment', 'New build', 'All'].map((filter) => (
+                    <Button
+                      key={filter}
+                      variant={activeFilter === filter ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setActiveFilter(filter)}
+                      className={`rounded-full px-4 py-2 text-sm ${
+                        activeFilter === filter
+                          ? theme === "light"
+                            ? "bg-rose-600 hover:bg-rose-700 text-white"
+                            : "bg-rose-500 hover:bg-rose-600 text-white"
+                          : theme === "light"
+                          ? "border-stone-300 hover:bg-stone-50"
+                          : "border-stone-500 hover:bg-stone-600"
+                      }`}
+                    >
+                      {filter}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <span
+                  className={`text-sm mb-3 block ${
+                    theme === "light" ? "text-stone-600" : "text-stone-400"
+                  }`}
+                >
+                  Filter by Status
+                </span>
+                <div className="flex gap-3">
+                  {['Complete', 'Estimate'].map((status) => (
+                    <Button
+                      key={status}
+                      variant={statusFilter === status ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setStatusFilter(status)}
+                      className={`rounded-full px-4 py-2 text-sm ${
+                        statusFilter === status
+                          ? theme === "light"
+                            ? "bg-rose-600 hover:bg-rose-700 text-white"
+                            : "bg-rose-500 hover:bg-rose-600 text-white"
+                          : theme === "light"
+                          ? "border-stone-300 hover:bg-stone-50"
+                          : "border-stone-500 hover:bg-stone-600"
+                      }`}
+                    >
+                      {status}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <span
+                  className={`text-sm font-medium ${
+                    theme === "light" ? "text-stone-600" : "text-stone-400"
+                  }`}
+                >
+                  Key
+                </span>
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-3">
+                    <div
+                      className={`w-4 h-0.5 border-t-2 border-dashed ${
+                        theme === "light" ? "border-stone-400" : "border-stone-500"
+                      }`}
+                    ></div>
+                    <span
+                      className={`text-sm ${
+                        theme === "light" ? "text-stone-600" : "text-stone-400"
+                      }`}
+                    >
+                      500 kgCO₂e/m² - Embodied Carbon Target 2030
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div
+                      className={`w-4 h-0.5 ${
+                        theme === "light" ? "bg-stone-400" : "bg-stone-500"
+                      }`}
+                    ></div>
+                    <span
+                      className={`text-sm ${
+                        theme === "light" ? "text-stone-600" : "text-stone-400"
+                      }`}
+                    >
+                      600 kgCO₂e/m² - Embodied Carbon Target 2025
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Heading Section */}
+            <div className="text-right">
+              <h2
+                className={`text-6xl font-light mb-2 ${
+                  theme === "light" ? "text-stone-800" : "text-stone-200"
+                }`}
+              >
+                EMBODIED
+              </h2>
+              <h2
+                className={`text-6xl font-light mb-2 ${
+                  theme === "light" ? "text-rose-600" : "text-rose-400"
+                }`}
+              >
+                CARBON
+              </h2>
+              <h2
+                className={`text-6xl font-light mb-4 ${
+                  theme === "light" ? "text-stone-600" : "text-stone-400"
+                }`}
+              >
+                EMISSIONS
               </h2>
               <p
                 className={`text-lg ${
@@ -86,13 +183,11 @@ const CarbonEmissionsChart = () => {
               >
                 Intensity measured by kgCO₂e/m²
               </p>
-            </div>
 
-            {/* Download Button */}
-            <div className="flex flex-col gap-4">
+              {/* Download Button */}
               <Button
                 variant="outline"
-                className={`rounded-full px-6 py-3 flex items-center gap-2 ${
+                className={`rounded-full px-6 py-3 flex items-center gap-2 mt-4 ${
                   theme === "light"
                     ? "border-stone-300 hover:bg-stone-50"
                     : "border-stone-500 hover:bg-stone-600"
@@ -105,119 +200,6 @@ const CarbonEmissionsChart = () => {
                   }`}
                 />
               </Button>
-            </div>
-          </div>
-
-          {/* Filters Section */}
-          <div className="mb-8 space-y-4">
-            <div>
-              <span
-                className={`text-sm mb-3 block ${
-                  theme === "light" ? "text-stone-600" : "text-stone-400"
-                }`}
-              >
-                Filter by
-              </span>
-              <div className="flex flex-wrap gap-3">
-                <span
-                  className={`text-sm font-medium ${
-                    theme === "light" ? "text-stone-700" : "text-stone-300"
-                  }`}
-                >
-                  Type
-                </span>
-                {['Refurbishment', 'New build', 'All'].map((filter) => (
-                  <Button
-                    key={filter}
-                    variant={activeFilter === filter ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setActiveFilter(filter)}
-                    className={`rounded-full px-4 py-2 text-sm ${
-                      activeFilter === filter
-                        ? theme === "light"
-                          ? "bg-rose-600 hover:bg-rose-700 text-white"
-                          : "bg-rose-500 hover:bg-rose-600 text-white"
-                        : theme === "light"
-                        ? "border-stone-300 hover:bg-stone-50"
-                        : "border-stone-500 hover:bg-stone-600"
-                    }`}
-                  >
-                    {filter}
-                  </Button>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <div className="flex flex-wrap gap-3">
-                <span
-                  className={`text-sm font-medium ${
-                    theme === "light" ? "text-stone-700" : "text-stone-300"
-                  }`}
-                >
-                  Status
-                </span>
-                {['Complete', 'Estimate'].map((status) => (
-                  <Button
-                    key={status}
-                    variant={statusFilter === status ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setStatusFilter(status)}
-                    className={`rounded-full px-4 py-2 text-sm ${
-                      statusFilter === status
-                        ? theme === "light"
-                          ? "bg-rose-600 hover:bg-rose-700 text-white"
-                          : "bg-rose-500 hover:bg-rose-600 text-white"
-                        : theme === "light"
-                        ? "border-stone-300 hover:bg-stone-50"
-                        : "border-stone-500 hover:bg-stone-600"
-                    }`}
-                  >
-                    {status}
-                  </Button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Legend Section */}
-          <div className="mb-6 space-y-2">
-            <div
-              className={`text-sm font-medium ${
-                theme === "light" ? "text-stone-600" : "text-stone-400"
-              }`}
-            >
-              Key
-            </div>
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-3">
-                <div
-                  className={`w-4 h-0.5 border-t-2 border-dashed ${
-                    theme === "light" ? "border-stone-400" : "border-stone-500"
-                  }`}
-                ></div>
-                <span
-                  className={`text-sm ${
-                    theme === "light" ? "text-stone-600" : "text-stone-400"
-                  }`}
-                >
-                  500 kgCO₂e/m² - Embodied Carbon Target 2030
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div
-                  className={`w-4 h-0.5 ${
-                    theme === "light" ? "bg-stone-400" : "bg-stone-500"
-                  }`}
-                ></div>
-                <span
-                  className={`text-sm ${
-                    theme === "light" ? "text-stone-600" : "text-stone-400"
-                  }`}
-                >
-                  600 kgCO₂e/m² - Embodied Carbon Target 2025
-                </span>
-              </div>
             </div>
           </div>
 
