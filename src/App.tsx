@@ -1,12 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Loader from "./components/Loader"; // Import the Loader component
-import Index from "./pages/Index"; // Import the Index page
+import Loader from "./components/Loader";
+import Index from "./pages/Index";
+import { ThemeProvider, ThemeContext } from "@/context/ThemeContext";
 
 const queryClient = new QueryClient();
 
 const App = () => {
   const [loading, setLoading] = useState(true);
+  const { themeColor, setThemeColor } = useContext(ThemeContext);
 
   useEffect(() => {
     // Simulate a loading delay
@@ -14,14 +16,21 @@ const App = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  const toggleTheme = () => {
+    setThemeColor(themeColor === "light" ? "dark" : "light");
+  };
+
   return (
-    <QueryClientProvider client={queryClient}>
-      {loading ? (
-        <Loader /> // Show the Loader while loading
-      ) : (
-        <Index /> // Render the Index page after the loader completes
-      )}
-    </QueryClientProvider>
+    <ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <div>
+          <button onClick={toggleTheme} style={{ marginBottom: "10px" }}>
+            Toggle Theme
+          </button>
+          {loading ? <Loader /> : <Index />}
+        </div>
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 };
 

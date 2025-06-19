@@ -1,8 +1,11 @@
-
 import { Card } from "@/components/ui/card";
 import { Star } from "lucide-react";
+import { useContext } from "react";
+import { ThemeContext } from "@/context/ThemeContext";
 
 const TestimonialsSection = () => {
+  const { themeColor: theme } = useContext(ThemeContext); // Access themeColor as theme from context
+
   const testimonials = [
     {
       name: "Sarah Chen",
@@ -31,40 +34,97 @@ const TestimonialsSection = () => {
   ];
 
   return (
-    <section className="py-20 px-6 bg-gradient-to-br from-emerald-50 to-stone-50">
+    <section
+      className={`py-20 px-6 ${
+        theme === "light"
+          ? "bg-gradient-to-br from-emerald-50 to-stone-50"
+          : "bg-gradient-to-br from-stone-800 to-stone-900"
+      }`}
+    >
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-light text-stone-800 mb-6">
-            Trusted by <span className="text-emerald-600">industry leaders</span>
+          <h2
+            className={`text-4xl md:text-5xl font-light mb-6 ${
+              theme === "light" ? "text-stone-800" : "text-stone-200"
+            }`}
+          >
+            Trusted by{" "}
+            <span
+              className={`${
+                theme === "light" ? "text-emerald-600" : "text-emerald-400"
+              }`}
+            >
+              industry leaders
+            </span>
           </h2>
-          <p className="text-xl text-stone-600 font-light">
+          <p
+            className={`text-xl font-light ${
+              theme === "light" ? "text-stone-600" : "text-stone-400"
+            }`}
+          >
             Join thousands of organizations making a real impact
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
-            <Card key={index} className="p-8 rounded-3xl border-0 bg-white shadow-lg hover:shadow-xl transition-all duration-300">
+            <Card
+              key={index}
+              className={`p-8 rounded-3xl border-0 shadow-lg hover:shadow-xl transition-all duration-300 ${
+                theme === "light"
+                  ? "bg-white"
+                  : "bg-stone-700"
+              }`}
+            >
               <div className="flex items-center gap-1 mb-4">
                 {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                  <Star
+                    key={i}
+                    className={`w-5 h-5 ${
+                      theme === "light"
+                        ? "fill-yellow-400 text-yellow-400"
+                        : "fill-yellow-300 text-yellow-300"
+                    }`}
+                  />
                 ))}
               </div>
-              
-              <p className="text-stone-700 font-light leading-relaxed mb-6">
+
+              <p
+                className={`font-light leading-relaxed mb-6 ${
+                  theme === "light" ? "text-stone-700" : "text-stone-300"
+                }`}
+              >
                 "{testimonial.content}"
               </p>
-              
+
               <div className="flex items-center gap-4">
-                <img 
-                  src={testimonial.image} 
+                <img
+                  src={testimonial.image}
                   alt={testimonial.name}
                   className="w-12 h-12 rounded-full object-cover"
                 />
                 <div>
-                  <div className="font-medium text-stone-800">{testimonial.name}</div>
-                  <div className="text-sm text-stone-600">{testimonial.role}</div>
-                  <div className="text-sm text-emerald-600">{testimonial.company}</div>
+                  <div
+                    className={`font-medium ${
+                      theme === "light" ? "text-stone-800" : "text-stone-200"
+                    }`}
+                  >
+                    {testimonial.name}
+                  </div>
+                  <div
+                    className={`text-sm ${
+                      theme === "light" ? "text-stone-600" : "text-stone-400"
+                    }`}
+                  >
+                    {testimonial.role}
+                  </div>
+                  <div
+                    className={`text-sm ${
+                      theme === "light" ? "text-emerald-600" : "text-emerald-400"
+                    }`}
+                  >
+                    {testimonial.company}
+                  </div>
                 </div>
               </div>
             </Card>

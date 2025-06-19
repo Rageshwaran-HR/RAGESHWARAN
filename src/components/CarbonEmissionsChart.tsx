@@ -2,9 +2,11 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, ReferenceLine } from 'recharts';
 import { ArrowDown } from "lucide-react";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { ThemeContext } from "@/context/ThemeContext";
 
 const CarbonEmissionsChart = () => {
+  const { themeColor: theme } = useContext(ThemeContext); // Access themeColor as theme from context
   const [activeFilter, setActiveFilter] = useState('All');
   const [statusFilter, setStatusFilter] = useState('Complete');
 
@@ -34,28 +36,74 @@ const CarbonEmissionsChart = () => {
   const filteredData = activeFilter === 'All' ? data : data.filter(item => item.category === activeFilter);
 
   return (
-    <section className="py-20 px-6 bg-gradient-to-br from-stone-50 to-rose-50">
+    <section
+      className={`py-20 px-6 ${
+        theme === "light" ? "bg-gradient-to-br from-stone-50 to-rose-50" : "bg-gradient-to-br from-stone-800 to-stone-900"
+      }`}
+    >
       <div className="max-w-7xl mx-auto">
-        <Card className="p-8 rounded-3xl shadow-xl border-0 bg-white/80 backdrop-blur-sm">
+        <Card
+          className={`p-8 rounded-3xl shadow-xl border-0 ${
+            theme === "light" ? "bg-white/80 backdrop-blur-sm" : "bg-stone-700/80 backdrop-blur-sm"
+          }`}
+        >
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8">
             {/* Heading Section */}
             <div className="mb-6 lg:mb-0 text-center lg:text-left">
-              <h2 className="text-4xl font-light text-stone-800 mb-4">
-                <span className="text-6xl font-light block lg:inline">EMBODIED</span><br />
-                <span className="text-rose-600 block lg:inline">CARBON</span><br />
-                <span className="text-stone-600 block lg:inline">EMISSIONS</span>
+              <h2
+                className={`text-4xl font-light mb-4 ${
+                  theme === "light" ? "text-stone-800" : "text-stone-200"
+                }`}
+              >
+                <span
+                  className={`text-6xl font-light block lg:inline ${
+                    theme === "light" ? "text-stone-800" : "text-stone-200"
+                  }`}
+                >
+                  EMBODIED
+                </span>
+                <br />
+                <span
+                  className={`block lg:inline ${
+                    theme === "light" ? "text-rose-600" : "text-rose-400"
+                  }`}
+                >
+                  CARBON
+                </span>
+                <br />
+                <span
+                  className={`block lg:inline ${
+                    theme === "light" ? "text-stone-600" : "text-stone-400"
+                  }`}
+                >
+                  EMISSIONS
+                </span>
               </h2>
-              <p className="text-stone-500 text-lg">Intensity measured by kgCO₂e/m²</p>
+              <p
+                className={`text-lg ${
+                  theme === "light" ? "text-stone-500" : "text-stone-400"
+                }`}
+              >
+                Intensity measured by kgCO₂e/m²
+              </p>
             </div>
 
             {/* Download Button */}
             <div className="flex flex-col gap-4">
-              <Button 
-                variant="outline" 
-                className="rounded-full px-6 py-3 border-stone-300 hover:bg-stone-50 flex items-center gap-2"
+              <Button
+                variant="outline"
+                className={`rounded-full px-6 py-3 flex items-center gap-2 ${
+                  theme === "light"
+                    ? "border-stone-300 hover:bg-stone-50"
+                    : "border-stone-500 hover:bg-stone-600"
+                }`}
               >
                 Download the data
-                <ArrowDown className="h-4 w-4" />
+                <ArrowDown
+                  className={`h-4 w-4 ${
+                    theme === "light" ? "text-stone-600" : "text-stone-300"
+                  }`}
+                />
               </Button>
             </div>
           </div>
@@ -63,9 +111,21 @@ const CarbonEmissionsChart = () => {
           {/* Filters Section */}
           <div className="mb-8 space-y-4">
             <div>
-              <span className="text-sm text-stone-600 mb-3 block">Filter by</span>
+              <span
+                className={`text-sm mb-3 block ${
+                  theme === "light" ? "text-stone-600" : "text-stone-400"
+                }`}
+              >
+                Filter by
+              </span>
               <div className="flex flex-wrap gap-3">
-                <span className="text-sm text-stone-700 font-medium">Type</span>
+                <span
+                  className={`text-sm font-medium ${
+                    theme === "light" ? "text-stone-700" : "text-stone-300"
+                  }`}
+                >
+                  Type
+                </span>
                 {['Refurbishment', 'New build', 'All'].map((filter) => (
                   <Button
                     key={filter}
@@ -73,9 +133,13 @@ const CarbonEmissionsChart = () => {
                     size="sm"
                     onClick={() => setActiveFilter(filter)}
                     className={`rounded-full px-4 py-2 text-sm ${
-                      activeFilter === filter 
-                        ? 'bg-rose-600 hover:bg-rose-700 text-white' 
-                        : 'border-stone-300 hover:bg-stone-50'
+                      activeFilter === filter
+                        ? theme === "light"
+                          ? "bg-rose-600 hover:bg-rose-700 text-white"
+                          : "bg-rose-500 hover:bg-rose-600 text-white"
+                        : theme === "light"
+                        ? "border-stone-300 hover:bg-stone-50"
+                        : "border-stone-500 hover:bg-stone-600"
                     }`}
                   >
                     {filter}
@@ -83,10 +147,16 @@ const CarbonEmissionsChart = () => {
                 ))}
               </div>
             </div>
-            
+
             <div>
               <div className="flex flex-wrap gap-3">
-                <span className="text-sm text-stone-700 font-medium">Status</span>
+                <span
+                  className={`text-sm font-medium ${
+                    theme === "light" ? "text-stone-700" : "text-stone-300"
+                  }`}
+                >
+                  Status
+                </span>
                 {['Complete', 'Estimate'].map((status) => (
                   <Button
                     key={status}
@@ -94,9 +164,13 @@ const CarbonEmissionsChart = () => {
                     size="sm"
                     onClick={() => setStatusFilter(status)}
                     className={`rounded-full px-4 py-2 text-sm ${
-                      statusFilter === status 
-                        ? 'bg-rose-600 hover:bg-rose-700 text-white' 
-                        : 'border-stone-300 hover:bg-stone-50'
+                      statusFilter === status
+                        ? theme === "light"
+                          ? "bg-rose-600 hover:bg-rose-700 text-white"
+                          : "bg-rose-500 hover:bg-rose-600 text-white"
+                        : theme === "light"
+                        ? "border-stone-300 hover:bg-stone-50"
+                        : "border-stone-500 hover:bg-stone-600"
                     }`}
                   >
                     {status}
@@ -108,15 +182,41 @@ const CarbonEmissionsChart = () => {
 
           {/* Legend Section */}
           <div className="mb-6 space-y-2">
-            <div className="text-sm text-stone-600 font-medium">Key</div>
+            <div
+              className={`text-sm font-medium ${
+                theme === "light" ? "text-stone-600" : "text-stone-400"
+              }`}
+            >
+              Key
+            </div>
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-3">
-                <div className="w-4 h-0.5 border-t-2 border-dashed border-stone-400"></div>
-                <span className="text-sm text-stone-600">500 kgCO₂e/m² - Embodied Carbon Target 2030</span>
+                <div
+                  className={`w-4 h-0.5 border-t-2 border-dashed ${
+                    theme === "light" ? "border-stone-400" : "border-stone-500"
+                  }`}
+                ></div>
+                <span
+                  className={`text-sm ${
+                    theme === "light" ? "text-stone-600" : "text-stone-400"
+                  }`}
+                >
+                  500 kgCO₂e/m² - Embodied Carbon Target 2030
+                </span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-4 h-0.5 bg-stone-400"></div>
-                <span className="text-sm text-stone-600">600 kgCO₂e/m² - Embodied Carbon Target 2025</span>
+                <div
+                  className={`w-4 h-0.5 ${
+                    theme === "light" ? "bg-stone-400" : "bg-stone-500"
+                  }`}
+                ></div>
+                <span
+                  className={`text-sm ${
+                    theme === "light" ? "text-stone-600" : "text-stone-400"
+                  }`}
+                >
+                  600 kgCO₂e/m² - Embodied Carbon Target 2025
+                </span>
               </div>
             </div>
           </div>
@@ -125,23 +225,36 @@ const CarbonEmissionsChart = () => {
           <div className="h-96">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={filteredData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                <XAxis 
-                  dataKey="name" 
+                <XAxis
+                  dataKey="name"
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fontSize: 12, fill: '#78716c' }}
+                  tick={{
+                    fontSize: 12,
+                    fill: theme === "light" ? "#78716c" : "#d1d5db"
+                  }}
                 />
-                <YAxis 
+                <YAxis
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fontSize: 12, fill: '#78716c' }}
+                  tick={{
+                    fontSize: 12,
+                    fill: theme === "light" ? "#78716c" : "#d1d5db"
+                  }}
                   domain={[0, 1200]}
                 />
-                <ReferenceLine y={500} stroke="#78716c" strokeDasharray="5 5" />
-                <ReferenceLine y={600} stroke="#78716c" />
-                <Bar 
-                  dataKey="value" 
-                  fill="#a78bfa" 
+                <ReferenceLine
+                  y={500}
+                  stroke={theme === "light" ? "#78716c" : "#d1d5db"}
+                  strokeDasharray="5 5"
+                />
+                <ReferenceLine
+                  y={600}
+                  stroke={theme === "light" ? "#78716c" : "#d1d5db"}
+                />
+                <Bar
+                  dataKey="value"
+                  fill={theme === "light" ? "#a78bfa" : "#7c3aed"}
                   radius={[4, 4, 0, 0]}
                   className="hover:opacity-80 transition-opacity"
                 />
