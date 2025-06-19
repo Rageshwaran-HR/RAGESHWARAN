@@ -1,0 +1,82 @@
+.customers-section {
+  width: 100vw;
+  min-height: 40vh;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  overflow: hidden;
+  position: relative; /* Add relative positioning for the button */
+}
+
+.customers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 180px);
+  grid-template-rows: repeat(2, 120px);
+  gap: 60px 80px;
+  justify-content: center;
+  align-items: center;
+  transition: filter 0.3s ease-in-out; /* Add transition for blur effect */
+}
+
+.customer-box {
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  user-select: none;
+  will-change: transform;
+  min-width: 140px;
+  min-height: 80px;
+  transition: box-shadow 0.2s;
+  border-radius: 12px;
+}
+
+.customer-logo {
+  margin-bottom: 16px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.customer-name {
+  opacity: 0.85;
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+}
+
+/* Button styles */
+.meet-customers-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the button */
+  padding: 15px 30px;
+  background: #fff;
+  color: #111;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 10; /* Ensure the button is above the grid */
+}
+
+/* Show button and blur background on hover */
+.customers-section:hover .meet-customers-button {
+  opacity: 1;
+}
+
+.customers-section:hover .customers-grid {
+  filter: blur(5px); /* Apply blur effect */
+}
