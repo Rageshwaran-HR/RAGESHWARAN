@@ -25,7 +25,6 @@ const App = () => {
       <QueryClientProvider client={queryClient}>
         <div>
           <button onClick={toggleTheme} style={{ marginBottom: "10px" }}>
-            Toggle Theme
           </button>
           {loading ? <Loader /> : <Index />}
         </div>
