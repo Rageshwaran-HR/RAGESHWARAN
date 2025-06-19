@@ -138,6 +138,7 @@ const Loader = () => {
             <div className="num">7</div>
             <div className="num">8</div>
             <div className="num">9</div>
+            <div className="num">0</div>
           </div>
           <div className="counter-3 digit" ref={counter3Ref}>
             {/* Dynamically generated digits */}
